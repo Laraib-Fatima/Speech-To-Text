@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Synthesis using Web Speech API</title>
+</head>
+<body>
+    <input type="text" id="textToSpeak" placeholder="Enter text to speak" />
+    <button id="speakButton">Speak</button>
+
+    <script>
+        const speakButton = document.getElementById('speakButton');
+        const textToSpeakInput = document.getElementById('textToSpeak');
+
+        speakButton.addEventListener('click', () => {
+            const text = textToSpeakInput.value;
+            if (text.trim() !== '') {
+                const utterance = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(utterance);
+            }
+        });
+    </script>
+</body>
+</html>
+

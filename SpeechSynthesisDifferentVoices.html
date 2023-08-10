@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Synthesis with Different Voices using Web Speech API</title>
+</head>
+<body>
+    <input type="text" id="textToSpeak" placeholder="Enter text to speak" />
+    <select id="voiceSelect"></select>
+    <button id="speakButton">Speak</button>
+
+    <script>
+        const speakButton = document.getElementById('speakButton');
+        const textToSpeakInput = document.getElementById('textToSpeak');
+        const voiceSelect = document.getElementById('voiceSelect');
+
+        const populateVoiceList = () => {
+            const voices = speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '';
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = voice.name;
+                voiceSelect.appendChild(option);
+            });
+        };
+
+        populateVoiceList();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoiceList;
+        }
+
+        speakButton.addEventListener('click', () => {
+            const text = textToSpeakInput.value;
+            if (text.trim() !== '') {
+                const voiceIndex = voiceSelect.value;
+                const selectedVoice = speechSynthesis.getVoices()[voiceIndex];
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.voice = selectedVoice;
+                speechSynthesis.speak(utterance);
+            }
+        });
+    </script>
+</body>
+</html>
